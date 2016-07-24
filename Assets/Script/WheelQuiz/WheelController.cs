@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
  
 
 public class WheelController : MonoBehaviour
@@ -35,17 +36,17 @@ public class WheelController : MonoBehaviour
 		Debug.Log ("angle " + angle);
 
 		if (angle > 30 && angle <= 90) {
-			result = "House";
+			result = "Huisvesting";
 		} else if (angle > 90 && angle <= 150) {
-			result = "Comb";
+			result = "Huisvesting"; // Verzorging
 		} else if (angle > 150 && angle <= 210) {
-			result = "Food";
+			result = "Voeding";
 		} else if (angle > 210 && angle <= 270) {
-			result = "Meat";
+			result = "Varkensproducten";
 		} else if (angle > 270 && angle <= 330) {
-			result = "Animals";
+			result = "Varken zelf";
 		} else if (angle > 330 || angle <= 30) {
-			result = "Angry";
+			result = "Emoties en omgang";
 		}
 
 		Debug.Log ("Category " + result);
@@ -83,7 +84,9 @@ public class WheelController : MonoBehaviour
 			startedRotation = false;
 
 			float degrees = toDegrees (wheelRigidBody.rotation);
-			getCategoryByAngle (degrees);
+			string group = getCategoryByAngle (degrees);
+			QuizApp.Group = group;
+			SceneManager.LoadScene("QuizQuestion");
 		}
 		
 		float rotation = wheelRigidBody.rotation + angleVelocity;
