@@ -8,15 +8,14 @@ public class LoginHandler : MonoBehaviour {
 
     public const string LOGIN_URI = "http://128.199.56.123:4570/login";
     public const string REGISTRATION_URI = "http://128.199.56.123:4570/register";
-    public Text debugText;
     public Text loginText;
     public Text passwordText;
     public Toggle registrationToggle;
 
     public GameObject dialogPanel;
     public Text dialogText;
-
     public GameObject progressPanel;
+    public Button btnLogin;
 
     // Use this for initialization
     void Start() {
@@ -24,11 +23,18 @@ public class LoginHandler : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() { }
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            { Application.Quit(); }
+    }
 
 
     // Update is called once per frame
     public void loginClick () {
+
+        if (loginText.text.Equals("") || passwordText.text.Equals(""))
+            return;
+
         showProgress();
 
         if (registrationToggle.isOn)
@@ -53,7 +59,7 @@ public class LoginHandler : MonoBehaviour {
     {
         Debug.Log("clicked");
 
-        AuthData auth = new AuthData(loginText.text, loginText.text);
+        AuthData auth = new AuthData(loginText.text, passwordText.text);
         String requestString = auth.toJson();
         
         Debug.Log("requestString: " + requestString);
@@ -82,14 +88,14 @@ public class LoginHandler : MonoBehaviour {
             }
             else
             {
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene("MainMenu");
             }
         }
     }
 
     private IEnumerator executeRegistration()
     {
-        AuthData auth = new AuthData(loginText.text, loginText.text);
+        AuthData auth = new AuthData(loginText.text, passwordText.text);
         String requestString = auth.toJson();
         Debug.Log("requestString: " + requestString);
 
@@ -117,7 +123,7 @@ public class LoginHandler : MonoBehaviour {
             }
             else
             {
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene("MainMenu");
             }
         }
     }
@@ -131,4 +137,14 @@ public class LoginHandler : MonoBehaviour {
     {
         progressPanel.SetActive(false);
     }
+
+    public void OnTogglerChanged( Boolean val )
+    {
+        if (val)
+            btnLogin.GetComponentInChildren<Text>().text = "Registratie";
+        else
+            btnLogin.GetComponentInChildren<Text>().text = "Log in";
+    }
+
+
 }

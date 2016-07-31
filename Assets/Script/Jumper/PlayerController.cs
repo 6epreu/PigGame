@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
             }
 
             mAnimator.SetFloat("vVelocity", mRigidBody.velocity.y);
-            scoreText.text = (Time.time + bonus).ToString("0.0");
+            scoreText.text = (Time.timeSinceLevelLoad + bonus).ToString("0.0");
         }
         else if ( Time.time > playerHurtTime + 2 ) 
         {
@@ -64,14 +64,18 @@ public class PlayerController : MonoBehaviour {
                 ml.enabled = false;
             }
 
-            // остаенавливаем фабрику кактусов
-            FindObjectOfType<EnemySpawner>().enabled = false;
+            // остаенавливаем фабрики кактусов, облаков, монет
+            foreach ( EnemySpawner spawner in FindObjectsOfType<EnemySpawner>() ) {
+                spawner.enabled = false;
+            }
+
+            // остаенавливаем фабрику гор
             FindObjectOfType<MountainSpawner>().enabled = false;
 
             mRigidBody.velocity = Vector2.zero;
             mRigidBody.AddForce(Vector2.up * force);
             mCollider.enabled = false;
-            scoreText.text = "0.0";
+            scoreText.text = (Time.timeSinceLevelLoad + bonus).ToString("0.0");
         }
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -79,10 +83,16 @@ public class PlayerController : MonoBehaviour {
             jumpLeft = 2;
             Debug.Log("Jump Left ++ " + jumpLeft);
         }
+    }
 
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Gold"))
+    /**
+     * Events connected with collision with objects with ISTRIGGER flag
+     */ 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Gold"))
         {
-            Destroy(collision.collider.gameObject);
+            Destroy(collider.gameObject);
             bonus += 50f;
         }
     }
