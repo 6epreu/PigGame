@@ -4,9 +4,9 @@ using System.Collections;
 [System.Serializable]
 public class AuthData  {
 
-    public string email;
     public string password;
-
+    public string email;
+        
     public AuthData(string email, string password)
     {
         this.email = email;
