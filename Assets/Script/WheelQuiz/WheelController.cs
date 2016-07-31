@@ -6,21 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class WheelController : MonoBehaviour
 {
-	private float angleVelocity = 0;
 
+	public Text score;
+
+	private float angleVelocity = 0;
 	private float startTouchY = -100;
 	private Rigidbody2D wheelRigidBody;
-	public Text label;
-
 	private bool startedRotation = false;
 	private float timeLeft = 0;
 
-
-	// Use this for initialization
 	void Start ()
 	{
 		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
-//		Debug.Log ("rotation " + wheelRigidBody.rotation);
+		score.text = "Score: " + QuizApp.getInstance().Score;
 	}
 
 	private void rotateWheelBy (float rotationAngle)
@@ -50,8 +48,6 @@ public class WheelController : MonoBehaviour
 		}
 
 		Debug.Log ("Category " + result);
-
-		label.text = result;
 
 		return result;
 	}

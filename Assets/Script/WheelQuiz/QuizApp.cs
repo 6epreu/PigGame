@@ -4,14 +4,33 @@ using System.Collections.Generic;
 
 public class QuizApp
 {
+	private const int MAX_GAMES = 5;
+
+	public Boolean isFinishing(){
+		return GameCounter >= MAX_GAMES;
+	}
+
+	public void AddGame (){
+		GameCounter++;
+	}
+
+	public float Score = 0f;
+	private int GameCounter = 0;
+
+	public void addScore (float score)
+	{
+		Score += score;
+	}
+
 	private List<Quiz> playedQuizes = new List<Quiz> ();
 	private List<Quiz> quizes = new List<Quiz> ();
 	private static QuizApp app = null;
+
 	public static string Group {
 		get;
 		set;
 	}
-		
+
 	public static QuizApp getInstance ()
 	{
 		if (app == null)
@@ -35,6 +54,7 @@ public class QuizApp
 
 	public void NewGame ()
 	{
+		GameCounter = 0;
 		playedQuizes.Clear ();	
 	}
 
