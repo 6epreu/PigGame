@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class MemoryGameController : MonoBehaviour
 {
@@ -14,75 +15,31 @@ public class MemoryGameController : MonoBehaviour
 	private Text description;
 	private Button continueBtn;
 
-	private string state = "";
 
+	// game state
+	private HashSet<string> selectedPigs;
+	private int failCount = 0;
+	private int state;
+	private int level = 1;
+	private float scoreValue = 0;
+
+	// utilities
+	private float timer;
+
+
+	// remember part vars
 	private float REMEMBER_DELAY = 5f;
-	private float rememberTimeout;
 
+	// on done
+	private float NEXT_LEVEL_TIMEOUT = 4f;
 
-	void showScreenWithSelectedPigs ()
-	{
-		Random.seed = (int)System.DateTime.Now.Ticks;
-		int amount = 10;
-		HashSet<GameObject> selectedPigs = selectPigs (amount);
-		foreach (GameObject pig in pigs) {
-			if (selectedPigs.Contains (pig)) {
-				pig.SetActive (true);
-			} else {
-				pig.SetActive (false);
-			}
-		}
-	}
+	const int WELCOME_PART = 1;
+	const int REMEMBER_PART = 2;
+	const int PRE_GAME_PART = 3;
+	const int GAME_PART = 4;
+	const int GAME_OVER_PART = 5;
 
-	HashSet<GameObject> selectPigs (int amount)
-	{
-		HashSet<GameObject> selectedPigs = new HashSet<GameObject> ();
-
-		while (amount > 0) {
-			int id = (int)Random.Range (1, pigs.Length + 1);
-			GameObject pig = pigs [id - 1];
-			if (selectedPigs.Contains (pig))
-				continue;
-			selectedPigs.Add (pig);
-			amount--;
-		}
-
-		return selectedPigs;
-	}
-
-	void hidePigs ()
-	{
-		foreach (GameObject pig in pigs)
-			pig.SetActive (false);
-	}
-
-	void hideFailures ()
-	{
-		fail1.SetActive (false);
-		fail2.SetActive (false);
-		fail3.SetActive (false);
-	}
-
-	void showRemember ()
-	{
-		showScreenWithSelectedPigs ();
-		rememberTimeout = REMEMBER_DELAY;
-		state = "remember";
-	}
-
-	void showIntro ()
-	{
-		hidePigs ();
-		hideFailures ();
-		description.text = "Welcome to our cool game.\nRemember pigs on the Screen.\nThen click it all on next Stage.";
-		descriptionHolder.SetActive (true);
-
-		continueBtn.onClick.AddListener (() => {
-			descriptionHolder.SetActive (false);
-			continueBtn.gameObject.SetActive (false);
-			showRemember ();
-		});
-	}
+	const float WINNING_SCORE_POINTS = 50f;
 
 	void initUI ()
 	{
@@ -99,31 +56,137 @@ public class MemoryGameController : MonoBehaviour
 	void Start ()
 	{
 		initUI ();
-		state = "intro";
+		state = WELCOME_PART;
 		score.text = "Score: 0.00";
 		showIntro ();
+		failCount = 0;
+	}
+
+	void showScreenWithSelectedPigs ()
+	{
+		print ("showScreenWithSelectedPigs");
+
+		UnityEngine.Random.seed = (int)System.DateTime.Now.Ticks;
+		int amount = level;
+		selectedPigs = selectPigs (amount);
+		foreach (GameObject pig in pigs) {
+			if (selectedPigs.Contains (pig.name)) {
+				pig.SetActive (true);
+			} else {
+				pig.SetActive (false);
+			}
+		}
+	}
+
+	HashSet<string> selectPigs (int amount)
+	{
+		print ("selectPigs");
+
+		HashSet<string> selectedPigs = new HashSet<string> ();
+
+		while (amount > 0) {
+			int id = (int)UnityEngine.Random.Range (1, pigs.Length + 1);
+			GameObject pig = pigs [id - 1];
+			if (selectedPigs.Contains (pig.name))
+				continue;
+			selectedPigs.Add (pig.name);
+			amount--;
+		}
+
+		foreach (string pig in selectedPigs)
+			print ("selected pig " + pig);
+
+		return selectedPigs;
+	}
+
+	void hidePigs ()
+	{
+		foreach (GameObject pig in pigs)
+			pig.SetActive (false);
+	}
+
+	void hideFailures ()
+	{
+		fail1.SetActive (false);
+		fail2.SetActive (false);
+		fail3.SetActive (false);
+		failCount = 0;
+	}
+
+	void showRemember ()
+	{
+		print ("showRemember");
+
+		showScreenWithSelectedPigs ();
+		timer = REMEMBER_DELAY;
+		state = REMEMBER_PART;
+	}
+
+	void showIntro ()
+	{
+		hidePigs ();
+		hideFailures ();
+		description.text = "Welcome to our cool game.\nRemember pigs on the Screen.\nThen click it all on next Stage.";
+		descriptionHolder.SetActive (true);
+		continueBtn.gameObject.SetActive (true);
+
+		continueBtn.onClick.AddListener (() => {
+			continueBtn.onClick.RemoveAllListeners ();
+			descriptionHolder.SetActive (false);
+			continueBtn.gameObject.SetActive (false);
+			showRemember ();
+		});
+	}
+
+
+	void showGameOver ()
+	{
+
+		hidePigs ();
+		description.text = "GAME IS OVER";
+		descriptionHolder.SetActive (true);
+
+		timer = 10f;
+
+		state = GAME_OVER_PART;
+
+
+	}
+
+	void addFail ()
+	{
+		failCount++;
+
+		switch (failCount) {
+		case 3:
+			fail3.SetActive (true);
+			showGameOver ();
+			break;
+		case 2:
+			fail2.SetActive (true);
+			break;
+		case 1:
+			fail1.SetActive (true);
+			break;
+		}
 	}
 
 	void showPigs ()
 	{
-		foreach (GameObject pig in pigs)
+		foreach (GameObject pig in pigs) {
 			pig.SetActive (true);
+			pig.GetComponent<SpriteRenderer> ().color = Color.white;
+		}
 	}
 
-	void setPigsClickable ()
-	{
-//		foreach (GameObject pig in pigs) {
-//			SpriteRenderer sr = pig.GetComponent<SpriteRenderer> ();
-//			BoxCollider2D collider = pig.GetComponent<BoxCollider2D> ();
-//			collider.
-//		}
-	}
+	private int trueClicks;
 
 	void showGame ()
 	{
-		state = "clicking";
 		showPigs ();
-		setPigsClickable ();
+		trueClicks = 0;
+		timer = 1f;
+		state = GAME_PART;
 	}
 
 	void showPreGame ()
@@ -135,43 +198,80 @@ public class MemoryGameController : MonoBehaviour
 		continueBtn.gameObject.SetActive (true);
 
 		continueBtn.onClick.AddListener (() => {
+			continueBtn.onClick.RemoveAllListeners ();
 			descriptionHolder.SetActive (false);
 			continueBtn.gameObject.SetActive (false);
 			showGame ();
 		});
-		
+	}
+
+
+	void showNextLevel ()
+	{
+		timer = NEXT_LEVEL_TIMEOUT;
+		scoreValue += WINNING_SCORE_POINTS;
+		score.text = "Score: " + scoreValue;
+		clickedPigs.Clear ();
+		trueClicks = 0;
+		level++;
+		showPigs ();
+		showIntro ();
+		description.text = String.Format("Next level. Remember {0} pigs", level);
+	}
+
+	HashSet<string> clickedPigs = new HashSet<string> ();
+
+	void processClicks ()
+	{
+		if (Input.GetMouseButtonUp (0)) {
+			RaycastHit2D hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
+			if (hit.collider != null) {
+				SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer> ();
+				print ("hit " + hit.collider.gameObject.name);
+				foreach (string name in selectedPigs)
+					print ("selected pig: " + name);
+
+				string name2 = hit.collider.gameObject.name;
+				if (selectedPigs.Contains (name2)) {
+					if (clickedPigs.Contains (name2))
+						return;
+					clickedPigs.Add (name2);
+					sr.color = Color.green;
+					trueClicks++;
+					if (trueClicks >= level)
+						showNextLevel ();
+
+					
+				} else {
+					sr.color = Color.red;
+					addFail ();
+				}
+			}
+		}
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
+		if (timer > 0) {
+			timer -= Time.deltaTime;
+			return;
+		}
+
 		switch (state) {
-		case "intro":
+		case WELCOME_PART:
 			break;
 
-		case "remember":
-			if (rememberTimeout > 0) {
-				rememberTimeout -= Time.deltaTime;
-			} else {
-				showPreGame ();
-			}
+		case REMEMBER_PART:	
+			showPreGame ();
 			break;
 
-		case "preGame":
+		case PRE_GAME_PART:
 			break;
 
-		case "clicking":
+		case GAME_PART:
+			processClicks ();
 			break;
-
 		}
-		if (Input.GetMouseButtonUp (0)) {
-			RaycastHit2D hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
-			if (hit.collider != null) {
-				Debug.Log ("Target Position: " + hit.collider.gameObject.transform.position);
-				SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer> ();
-				sr.color = Color.green;
-			}
-		}
-	
 	}
 }
