@@ -208,6 +208,11 @@ public class MemoryGameController : MonoBehaviour
 
 	void showNextLevel ()
 	{
+		if (level == 10) {
+			showGameOver ();
+			return;
+		}
+
 		timer = NEXT_LEVEL_TIMEOUT;
 		scoreValue += WINNING_SCORE_POINTS;
 		score.text = "Score: " + scoreValue;
