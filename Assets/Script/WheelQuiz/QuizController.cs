@@ -91,20 +91,21 @@ public class QuizController : MonoBehaviour
 		this.question.text = quiz.Question;
 		this.groupImage.sprite = findImageByGroup (QuizApp.Group);
 
-		answerButton1.onClick.AddListener (() => {
-			DisableButtons ();
-			SetAnswer (3);
-		}); 
-		answerButton2.onClick.AddListener (() => {
-			SetAnswer (2);
-		}); 
-		answerButton3.onClick.AddListener (() => {
-			SetAnswer (1);
-		}); 
-		answerButton4.onClick.AddListener (() => {
-			SetAnswer (0);
-			answerButton4.Select ();
-		}); 
+        
+  //      answerButton1.onClick.AddListener (() => {
+		//	DisableButtons ();
+		//	SetAnswer (3);
+		//}); 
+		//answerButton2.onClick.AddListener (() => {
+		//	SetAnswer (2);
+		//}); 
+		//answerButton3.onClick.AddListener (() => {
+		//	SetAnswer (1);
+		//}); 
+		//answerButton4.onClick.AddListener (() => {
+		//	SetAnswer (0);
+		//	answerButton4.Select ();
+		//}); 
 
 		answerButton1.GetComponentInChildren<Text> ().text = answers [3];
 		answerButton2.GetComponentInChildren<Text> ().text = answers [2];
@@ -114,7 +115,12 @@ public class QuizController : MonoBehaviour
 		Debug.Log ("correct answer =" + correctAnswer);
 	}
 
-	void SetAnswer (int number)
+    public void setAnswer()
+    {
+
+    }
+
+	public void SetAnswer (int number)
 	{
 		Debug.Log ("your answer = " + number);
 		Boolean result = number == correctAnswer;
