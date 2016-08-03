@@ -43,10 +43,7 @@ public class MemoryGameController : MonoBehaviour
 
 	void initUI ()
 	{
-
-
-
-
+        
 		pigs = GameObject.FindGameObjectsWithTag ("pigs");
 		score = GameObject.Find ("score").GetComponent<Text> ();
 		fail1 = GameObject.Find ("failure1");
