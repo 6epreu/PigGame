@@ -130,12 +130,12 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
 
-		continueBtn.onClick.AddListener (() => {
-			continueBtn.onClick.RemoveAllListeners ();
-			descriptionHolder.SetActive (false);
-			continueBtn.gameObject.SetActive (false);
-			showRemember ();
-		});
+		//continueBtn.onClick.AddListener (() => {
+		//	continueBtn.onClick.RemoveAllListeners ();
+		//	descriptionHolder.SetActive (false);
+		//	continueBtn.gameObject.SetActive (false);
+		//	showRemember ();
+		//});
 	}
 
 
@@ -197,12 +197,12 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
 
-		continueBtn.onClick.AddListener (() => {
-			continueBtn.onClick.RemoveAllListeners ();
-			descriptionHolder.SetActive (false);
-			continueBtn.gameObject.SetActive (false);
-			showGame ();
-		});
+		//continueBtn.onClick.AddListener (() => {
+		//	continueBtn.onClick.RemoveAllListeners ();
+		//	descriptionHolder.SetActive (false);
+		//	continueBtn.gameObject.SetActive (false);
+		//	showGame ();
+		//});
 	}
 
 
