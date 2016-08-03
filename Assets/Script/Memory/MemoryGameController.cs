@@ -44,26 +44,39 @@ public class MemoryGameController : MonoBehaviour
 
 	void initUI ()
 	{
-        
+		print ("MEMORY: " + "initUI");
 		pigs = GameObject.FindGameObjectsWithTag ("pigs");
+		print ("MEMORY: 1");
 		score = GameObject.Find ("score").GetComponent<Text> ();
+		print ("MEMORY: 2");
 		fail1 = GameObject.Find ("failure1");
+		print ("MEMORY: 3");
 		fail2 = GameObject.Find ("failure2");
+		print ("MEMORY: 4");
 		descriptionHolder = GameObject.Find ("descriptionHolder");
+		print ("MEMORY: 5");
 		fail3 = GameObject.Find ("failure3");
+		print ("MEMORY: 6");
 		description = GameObject.Find ("description").GetComponent<Text> ();
+		print ("MEMORY: 7");
 		continueBtn = GameObject.Find ("continue").GetComponent<UnityEngine.UI.Button> ();
+		print ("MEMORY: 8");
+		print ("MEMORY: " + "initUI done");
 	}
 
 	void Start ()
 	{
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
-
-        initUI ();
+		print ("MEMORY: " + "Start");
+		initUI ();
 		state = WELCOME_PART;
-		score.text = "Score: 0.00";
+
+		score.text = "Score: " + AppGlobal.totalScore;
+		scoreValue = AppGlobal.totalScore;
 		showIntro ();
 		failCount = 0;
+
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
+
 	}
 
 	void showScreenWithSelectedPigs ()
@@ -134,28 +147,26 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
         
-        continueBtn.onClick.AddListener(() =>
-        {
-            continueBtn.onClick.RemoveAllListeners();
-            descriptionHolder.SetActive(false);
-            continueBtn.gameObject.SetActive(false);
-            showRemember();
-        });
-    }
+		continueBtn.onClick.AddListener (() => {
+			continueBtn.onClick.RemoveAllListeners ();
+			descriptionHolder.SetActive (false);
+			continueBtn.gameObject.SetActive (false);
+			showRemember ();
+		});
+	}
 
 
-    void showGameOver ()
+	void showGameOver ()
 	{
 
 		hidePigs ();
-		description.text = "GAME IS OVER";
+		description.text = "GAME OVER";
 		descriptionHolder.SetActive (true);
 
-		timer = 10f;
-
 		state = GAME_OVER_PART;
+		timer = 2f;
 
-
+		AppGlobal.totalScore = scoreValue;
 	}
 
 	void addFail ()
@@ -202,14 +213,13 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
 
-        continueBtn.onClick.AddListener(() =>
-        {
-            continueBtn.onClick.RemoveAllListeners();
-            descriptionHolder.SetActive(false);
-            continueBtn.gameObject.SetActive(false);
-            showGame();
-        });
-    }
+		continueBtn.onClick.AddListener (() => {
+			continueBtn.onClick.RemoveAllListeners ();
+			descriptionHolder.SetActive (false);
+			continueBtn.gameObject.SetActive (false);
+			showGame ();
+		});
+	}
 
 
 	void showNextLevel ()
@@ -227,7 +237,7 @@ public class MemoryGameController : MonoBehaviour
 		level++;
 		showPigs ();
 		showIntro ();
-		description.text = String.Format("Next level. Remember {0} pigs", level);
+		description.text = String.Format ("Next level. Remember {0} pigs", level);
 	}
 
 	HashSet<string> clickedPigs = new HashSet<string> ();
@@ -263,13 +273,11 @@ public class MemoryGameController : MonoBehaviour
 
 	// Update is called once per frame
 	void Update ()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
+	{
+		if (Input.GetKeyDown (KeyCode.Escape))
+			SceneManager.LoadScene ("MainMenu");
 
-        if (timer > 0) {
+		if (timer > 0) {
 			timer -= Time.deltaTime;
 			return;
 		}
@@ -287,6 +295,13 @@ public class MemoryGameController : MonoBehaviour
 
 		case GAME_PART:
 			processClicks ();
+			break;
+
+		case GAME_OVER_PART:
+			if (AppGlobal.isContinious)
+				SceneManager.LoadScene ("QuizWheel");
+			else
+				SceneManager.LoadScene ("MainMenu");
 			break;
 		}
 	}

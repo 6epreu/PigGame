@@ -39,7 +39,7 @@ public class MenuScript : MonoBehaviour {
 
     public void clickmemory()
     {
-        SceneManager.LoadScene("MemoryGame");
+		SceneManager.LoadScene("MemoryGame", LoadSceneMode.Single);
     }
 
     public void clickStartFullGame()
