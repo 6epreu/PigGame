@@ -13,7 +13,7 @@ public class MemoryGameController : MonoBehaviour
 	private GameObject fail3;
 	private GameObject descriptionHolder;
 	private Text description;
-	private Button continueBtn;
+	private UnityEngine.UI.Button continueBtn;
 
 
 	// game state
@@ -43,6 +43,10 @@ public class MemoryGameController : MonoBehaviour
 
 	void initUI ()
 	{
+
+
+
+
 		pigs = GameObject.FindGameObjectsWithTag ("pigs");
 		score = GameObject.Find ("score").GetComponent<Text> ();
 		fail1 = GameObject.Find ("failure1");
@@ -50,7 +54,7 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder = GameObject.Find ("descriptionHolder");
 		fail3 = GameObject.Find ("failure3");
 		description = GameObject.Find ("description").GetComponent<Text> ();
-		continueBtn = GameObject.Find ("continue").GetComponent<Button> ();
+		continueBtn = GameObject.Find ("continue").GetComponent<UnityEngine.UI.Button> ();
 	}
 
 	void Start ()
@@ -129,17 +133,18 @@ public class MemoryGameController : MonoBehaviour
 		description.text = "Welcome to our cool game.\nRemember pigs on the Screen.\nThen click it all on next Stage.";
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
+        
+        continueBtn.onClick.AddListener(() =>
+        {
+            continueBtn.onClick.RemoveAllListeners();
+            descriptionHolder.SetActive(false);
+            continueBtn.gameObject.SetActive(false);
+            showRemember();
+        });
+    }
 
-		//continueBtn.onClick.AddListener (() => {
-		//	continueBtn.onClick.RemoveAllListeners ();
-		//	descriptionHolder.SetActive (false);
-		//	continueBtn.gameObject.SetActive (false);
-		//	showRemember ();
-		//});
-	}
 
-
-	void showGameOver ()
+    void showGameOver ()
 	{
 
 		hidePigs ();
@@ -197,13 +202,14 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
 
-		//continueBtn.onClick.AddListener (() => {
-		//	continueBtn.onClick.RemoveAllListeners ();
-		//	descriptionHolder.SetActive (false);
-		//	continueBtn.gameObject.SetActive (false);
-		//	showGame ();
-		//});
-	}
+        continueBtn.onClick.AddListener(() =>
+        {
+            continueBtn.onClick.RemoveAllListeners();
+            descriptionHolder.SetActive(false);
+            continueBtn.gameObject.SetActive(false);
+            showGame();
+        });
+    }
 
 
 	void showNextLevel ()
