@@ -13,7 +13,7 @@ public class MemoryGameController : MonoBehaviour
 	private GameObject fail3;
 	private GameObject descriptionHolder;
 	private Text description;
-	private Button continueBtn;
+	private UnityEngine.UI.Button continueBtn;
 
 
 	// game state
@@ -50,7 +50,7 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder = GameObject.Find ("descriptionHolder");
 		fail3 = GameObject.Find ("failure3");
 		description = GameObject.Find ("description").GetComponent<Text> ();
-		continueBtn = GameObject.Find ("continue").GetComponent<Button> ();
+		continueBtn = GameObject.Find ("continue").GetComponent<UnityEngine.UI.Button> ();
 	}
 
 	void Start ()
