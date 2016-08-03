@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
     
@@ -40,12 +41,18 @@ public class PlayerController : MonoBehaviour {
             }
 
             mAnimator.SetFloat("vVelocity", mRigidBody.velocity.y);
-            scoreText.text = (Time.timeSinceLevelLoad + bonus).ToString("0.0");
+            scoreText.text = (Time.timeSinceLevelLoad + bonus + AppGlobal.totalScore).ToString("0.0");
         }
         else if ( Time.time > playerHurtTime + 2 ) 
         {
-            scoreText.text = "0.0";
-            Application.LoadLevel(Application.loadedLevel);
+            if (!AppGlobal.isContinious)
+                Application.LoadLevel(Application.loadedLevel);
+            else
+            {
+                float levelScore = float.Parse(scoreText.text);
+                AppGlobal.totalScore = levelScore;
+                SceneManager.LoadScene("next");
+            }   
         }
     }
 
@@ -75,7 +82,7 @@ public class PlayerController : MonoBehaviour {
             mRigidBody.velocity = Vector2.zero;
             mRigidBody.AddForce(Vector2.up * force);
             mCollider.enabled = false;
-            scoreText.text = (Time.timeSinceLevelLoad + bonus).ToString("0.0");
+            scoreText.text = (Time.timeSinceLevelLoad + bonus + AppGlobal.totalScore).ToString("0.0");
         }
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
