@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class MemoryGameController : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class MemoryGameController : MonoBehaviour
 
 	void initUI ()
 	{
+        
 		pigs = GameObject.FindGameObjectsWithTag ("pigs");
 		score = GameObject.Find ("score").GetComponent<Text> ();
 		fail1 = GameObject.Find ("failure1");
@@ -55,7 +57,9 @@ public class MemoryGameController : MonoBehaviour
 
 	void Start ()
 	{
-		initUI ();
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
+        initUI ();
 		state = WELCOME_PART;
 		score.text = "Score: 0.00";
 		showIntro ();
@@ -129,17 +133,18 @@ public class MemoryGameController : MonoBehaviour
 		description.text = "Welcome to our cool game.\nRemember pigs on the Screen.\nThen click it all on next Stage.";
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
+        
+        continueBtn.onClick.AddListener(() =>
+        {
+            continueBtn.onClick.RemoveAllListeners();
+            descriptionHolder.SetActive(false);
+            continueBtn.gameObject.SetActive(false);
+            showRemember();
+        });
+    }
 
-		continueBtn.onClick.AddListener (() => {
-			continueBtn.onClick.RemoveAllListeners ();
-			descriptionHolder.SetActive (false);
-			continueBtn.gameObject.SetActive (false);
-			showRemember ();
-		});
-	}
 
-
-	void showGameOver ()
+    void showGameOver ()
 	{
 
 		hidePigs ();
@@ -197,13 +202,14 @@ public class MemoryGameController : MonoBehaviour
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
 
-		continueBtn.onClick.AddListener (() => {
-			continueBtn.onClick.RemoveAllListeners ();
-			descriptionHolder.SetActive (false);
-			continueBtn.gameObject.SetActive (false);
-			showGame ();
-		});
-	}
+        continueBtn.onClick.AddListener(() =>
+        {
+            continueBtn.onClick.RemoveAllListeners();
+            descriptionHolder.SetActive(false);
+            continueBtn.gameObject.SetActive(false);
+            showGame();
+        });
+    }
 
 
 	void showNextLevel ()
@@ -257,8 +263,13 @@ public class MemoryGameController : MonoBehaviour
 
 	// Update is called once per frame
 	void Update ()
-	{
-		if (timer > 0) {
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        if (timer > 0) {
 			timer -= Time.deltaTime;
 			return;
 		}
