@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class MemoryGameController : MonoBehaviour
 {
@@ -56,7 +57,9 @@ public class MemoryGameController : MonoBehaviour
 
 	void Start ()
 	{
-		initUI ();
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
+        initUI ();
 		state = WELCOME_PART;
 		score.text = "Score: 0.00";
 		showIntro ();
@@ -260,8 +263,13 @@ public class MemoryGameController : MonoBehaviour
 
 	// Update is called once per frame
 	void Update ()
-	{
-		if (timer > 0) {
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        if (timer > 0) {
 			timer -= Time.deltaTime;
 			return;
 		}
