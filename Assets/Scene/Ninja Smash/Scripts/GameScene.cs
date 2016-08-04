@@ -14,8 +14,10 @@ public class GameScene : MonoBehaviour {
 	private GameObject[] ninjas3;
 	private GameObject[] ninjas4;
 
-	// Boolean to check if each hole is taken or empty
-	private bool[] isHoleTaken;
+    private GameObject[] pig1;
+
+    // Boolean to check if each hole is taken or empty
+    private bool[] isHoleTaken;
 
 	// GUI Text Variables
 	private GameObject textTime;
@@ -102,48 +104,82 @@ public class GameScene : MonoBehaviour {
 		isHoleTaken[6] = false;
 
 
-		// Get Ninja gameobjects from screen, we'll show/hide them with code
-		// We're creating 7 ninjas of each type at the start, so that we don't have to
-		// create it during gameplay
+        // Get Ninja gameobjects from screen, we'll show/hide them with code
+        // We're creating 7 ninjas of each type at the start, so that we don't have to
+        // create it during gameplay
 
-		ninjas1 = new GameObject[7];
-		ninjas1[0] = GameObject.Find("n10");
-		ninjas1[1] = GameObject.Find("n11");
-		ninjas1[2] = GameObject.Find("n12");
-		ninjas1[3] = GameObject.Find("n13");
-		ninjas1[4] = GameObject.Find("n14");
-		ninjas1[5] = GameObject.Find("n15");
-		ninjas1[6] = GameObject.Find("n16");
+        ninjas1 = new GameObject[7];
+        ninjas1[0] = GameObject.Find("pig40");
+        ninjas1[1] = GameObject.Find("pig41");
+        ninjas1[2] = GameObject.Find("pig42");
+        ninjas1[3] = GameObject.Find("pig43");
+        ninjas1[4] = GameObject.Find("pig44");
+        ninjas1[5] = GameObject.Find("pig45");
+        ninjas1[6] = GameObject.Find("pig46");
 
-		ninjas2 = new GameObject[7];
-		ninjas2[0] = GameObject.Find("n20");
-		ninjas2[1] = GameObject.Find("n21");
-		ninjas2[2] = GameObject.Find("n22");
-		ninjas2[3] = GameObject.Find("n23");
-		ninjas2[4] = GameObject.Find("n24");
-		ninjas2[5] = GameObject.Find("n25");
-		ninjas2[6] = GameObject.Find("n26");
 
-		ninjas3 = new GameObject[7];
-		ninjas3[0] = GameObject.Find("n30");
-		ninjas3[1] = GameObject.Find("n31");
-		ninjas3[2] = GameObject.Find("n32");
-		ninjas3[3] = GameObject.Find("n33");
-		ninjas3[4] = GameObject.Find("n34");
-		ninjas3[5] = GameObject.Find("n35");
-		ninjas3[6] = GameObject.Find("n36");
+        ninjas2 = new GameObject[7];
+        ninjas2[0] = GameObject.Find("pig40");
+        ninjas2[1] = GameObject.Find("pig41");
+        ninjas2[2] = GameObject.Find("pig42");
+        ninjas2[3] = GameObject.Find("pig43");
+        ninjas2[4] = GameObject.Find("pig44");
+        ninjas2[5] = GameObject.Find("pig45");
+        ninjas2[6] = GameObject.Find("pig46");
 
-		ninjas4 = new GameObject[7];
-		ninjas4[0] = GameObject.Find("n40");
-		ninjas4[1] = GameObject.Find("n41");
-		ninjas4[2] = GameObject.Find("n42");
-		ninjas4[3] = GameObject.Find("n43");
-		ninjas4[4] = GameObject.Find("n44");
-		ninjas4[5] = GameObject.Find("n45");
-		ninjas4[6] = GameObject.Find("n46");
+        ninjas3 = new GameObject[7];
+        ninjas3[0] = GameObject.Find("pig40");
+        ninjas3[1] = GameObject.Find("pig41");
+        ninjas3[2] = GameObject.Find("pig42");
+        ninjas3[3] = GameObject.Find("pig43");
+        ninjas3[4] = GameObject.Find("pig44");
+        ninjas3[5] = GameObject.Find("pig45");
+        ninjas3[6] = GameObject.Find("pig46");
 
-		// Start method to show ninjas in loop
-		StartCoroutine(popNinjas());
+        ninjas4 = new GameObject[7];
+        ninjas4[0] = GameObject.Find("pig40");
+        ninjas4[1] = GameObject.Find("pig41");
+        ninjas4[2] = GameObject.Find("pig42");
+        ninjas4[3] = GameObject.Find("pig43");
+        ninjas4[4] = GameObject.Find("pig44");
+        ninjas4[5] = GameObject.Find("pig45");
+        ninjas4[6] = GameObject.Find("pig46");
+
+
+
+
+
+
+
+        //      ninjas2 = new GameObject[7];
+        //      ninjas2[0] = GameObject.Find("n20");
+        //      ninjas2[1] = GameObject.Find("n21");
+        //      ninjas2[2] = GameObject.Find("n22");
+        //      ninjas2[3] = GameObject.Find("n23");
+        //      ninjas2[4] = GameObject.Find("n24");
+        //      ninjas2[5] = GameObject.Find("n25");
+        //      ninjas2[6] = GameObject.Find("n26");
+
+        //      ninjas3 = new GameObject[7];
+        //ninjas3[0] = GameObject.Find("n30");
+        //ninjas3[1] = GameObject.Find("n31");
+        //ninjas3[2] = GameObject.Find("n32");
+        //ninjas3[3] = GameObject.Find("n33");
+        //ninjas3[4] = GameObject.Find("n34");
+        //ninjas3[5] = GameObject.Find("n35");
+        //ninjas3[6] = GameObject.Find("n36");
+
+        //ninjas4 = new GameObject[7];
+        //ninjas4[0] = GameObject.Find("n40");
+        //ninjas4[1] = GameObject.Find("n41");
+        //ninjas4[2] = GameObject.Find("n42");
+        //ninjas4[3] = GameObject.Find("n43");
+        //ninjas4[4] = GameObject.Find("n44");
+        //ninjas4[5] = GameObject.Find("n45");
+        //ninjas4[6] = GameObject.Find("n46");
+
+        // Start method to show ninjas in loop
+        StartCoroutine(popNinjas());
 
 
         // если это заново запушенная игра - включаем режит таймера
