@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
             {
                 float levelScore = float.Parse(scoreText.text);
                 AppGlobal.totalScore = levelScore;
-                SceneManager.LoadScene("next");
+                SceneManager.LoadScene("MemoryGame");
             }   
         }
     }

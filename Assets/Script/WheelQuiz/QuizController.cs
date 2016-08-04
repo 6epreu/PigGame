@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class QuizController : MonoBehaviour
 {
@@ -14,10 +14,10 @@ public class QuizController : MonoBehaviour
 	private float nextUsage;
 	private Boolean IsFinishing = false;
 
-	public Button answerButton1;
-	public Button answerButton2;
-	public Button answerButton3;
-	public Button answerButton4;
+	public UnityEngine.UI.Button answerButton1;
+	public UnityEngine.UI.Button answerButton2;
+	public UnityEngine.UI.Button answerButton3;
+	public UnityEngine.UI.Button answerButton4;
 
 	public Text question;
 	public Text title;
@@ -91,21 +91,10 @@ public class QuizController : MonoBehaviour
 		this.question.text = quiz.Question;
 		this.groupImage.sprite = findImageByGroup (QuizApp.Group);
 
-        
-  //      answerButton1.onClick.AddListener (() => {
-		//	DisableButtons ();
-		//	SetAnswer (3);
-		//}); 
-		//answerButton2.onClick.AddListener (() => {
-		//	SetAnswer (2);
-		//}); 
-		//answerButton3.onClick.AddListener (() => {
-		//	SetAnswer (1);
-		//}); 
-		//answerButton4.onClick.AddListener (() => {
-		//	SetAnswer (0);
-		//	answerButton4.Select ();
-		//}); 
+		answerButton1 = GameObject.Find ("AnswerButton1").GetComponent<UnityEngine.UI.Button> ();
+		answerButton2 = GameObject.Find ("AnswerButton2").GetComponent<UnityEngine.UI.Button> ();
+		answerButton3 = GameObject.Find ("AnswerButton3").GetComponent<UnityEngine.UI.Button> ();
+		answerButton4 = GameObject.Find ("AnswerButton4").GetComponent<UnityEngine.UI.Button> ();
 
 		answerButton1.GetComponentInChildren<Text> ().text = answers [3];
 		answerButton2.GetComponentInChildren<Text> ().text = answers [2];
@@ -115,10 +104,10 @@ public class QuizController : MonoBehaviour
 		Debug.Log ("correct answer =" + correctAnswer);
 	}
 
-    public void setAnswer()
-    {
+	public void setAnswer ()
+	{
 
-    }
+	}
 
 	public void SetAnswer (int number)
 	{
@@ -130,9 +119,10 @@ public class QuizController : MonoBehaviour
 		if (result) {
 			QuizApp.getInstance ().addScore (WIN_SCORE);
 		} else {
-
+			
 		}
 
+		QuizApp.getInstance ().AddGame ();
 		nextUsage = Time.time + delay;
 		IsFinishing = true;
 	}
@@ -140,6 +130,15 @@ public class QuizController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (QuizApp.getInstance ().isGameOver ()) {
+			if (AppGlobal.isContinious) {
+				SceneManager.LoadScene ("Leaderboards");
+			} else {
+				SceneManager.LoadScene ("MainMenu");
+			}
+		}
+
+
 		if (Time.time > nextUsage && IsFinishing) {
 			QuizApp.getInstance ().AddGame ();
 			SceneManager.LoadScene ("QuizWheel");

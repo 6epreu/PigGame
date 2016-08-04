@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
- 
+
 
 public class WheelController : MonoBehaviour
 {
@@ -17,8 +17,10 @@ public class WheelController : MonoBehaviour
 
 	void Start ()
 	{
+		Screen.orientation = ScreenOrientation.Portrait;
+
 		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
-		score.text = "Score: " + QuizApp.getInstance().Score;
+		score.text = "Score: " + QuizApp.getInstance ().Score;
 	}
 
 	private void rotateWheelBy (float rotationAngle)
@@ -30,7 +32,7 @@ public class WheelController : MonoBehaviour
 	private string getCategoryByAngle (float gradus)
 	{
 		string result = "";
-		int angle = (int) gradus;
+		int angle = (int)gradus;
 		Debug.Log ("angle " + angle);
 
 		if (angle > 30 && angle <= 90) {
@@ -73,6 +75,10 @@ public class WheelController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (Input.GetKeyDown (KeyCode.Escape))
+			SceneManager.LoadScene ("MainMenu");
+		
+
 		if (timeLeft > 0) {
 			timeLeft -= Time.deltaTime;
 		} else if (startedRotation) {
@@ -82,7 +88,7 @@ public class WheelController : MonoBehaviour
 			float degrees = toDegrees (wheelRigidBody.rotation);
 			string group = getCategoryByAngle (degrees);
 			QuizApp.Group = group;
-			SceneManager.LoadScene("QuizQuestion");
+			SceneManager.LoadScene ("QuizQuestion");
 		}
 		
 		float rotation = wheelRigidBody.rotation + angleVelocity;
