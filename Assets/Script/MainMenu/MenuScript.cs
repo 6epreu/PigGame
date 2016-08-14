@@ -23,22 +23,26 @@ public class MenuScript : MonoBehaviour {
 
     public void clickJumper()
     {
+		AppGlobal.totalScore = 0f;
         SceneManager.LoadScene("Level1");
     }
 
     public void clickWheel()
     {
+		AppGlobal.totalScore = 0f;
         SceneManager.LoadScene("QuizWheel");
     }
 
     public void clickNinja()
     {
+		AppGlobal.totalScore = 0f;
         SceneManager.LoadScene("GameScene");
         //Application.LoadLevel(Levels.TimerMode);
     }
 
     public void clickmemory()
     {
+		AppGlobal.totalScore = 0f;
 		SceneManager.LoadScene("MemoryGame", LoadSceneMode.Single);
     }
 

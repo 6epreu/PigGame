@@ -11,8 +11,10 @@ public class QuizController : MonoBehaviour
 	
 	const float WIN_SCORE = 50f;
 	const float delay = 2f;
-	private float nextUsage;
+
+	private float timeout;
 	private Boolean IsFinishing = false;
+	private Boolean IsLoadNextScene = false;
 
 	public UnityEngine.UI.Button answerButton1;
 	public UnityEngine.UI.Button answerButton2;
@@ -82,7 +84,6 @@ public class QuizController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		nextUsage = 0f;
 		Quiz quiz = QuizApp.getInstance ().nextQuiz ();
 		String[] answers = ShuffleList (quiz.Answers).ToArray ();
 		String correctAnswerStr = quiz.Answers.ToArray () [0];
@@ -104,46 +105,40 @@ public class QuizController : MonoBehaviour
 		Debug.Log ("correct answer =" + correctAnswer);
 	}
 
-	public void setAnswer ()
-	{
-
-	}
-
 	public void SetAnswer (int number)
 	{
 		Debug.Log ("your answer = " + number);
 		Boolean result = number == correctAnswer;
 		Debug.Log (result ? "YOU WIN" : "YOU LOSE");	
-
-	
+			
 		if (result) {
 			QuizApp.getInstance ().addScore (WIN_SCORE);
-		} else {
-			
 		}
 
 		QuizApp.getInstance ().AddGame ();
-		nextUsage = Time.time + delay;
+		timeout = delay;
 		IsFinishing = true;
 	}
 		
 	// Update is called once per frame
 	void Update ()
 	{
+		if (timeout > 0)
+			timeout -= Time.deltaTime;
+
 		if (QuizApp.getInstance ().isGameOver ()) {
+			QuizApp.getInstance ().NewGame ();
 			if (AppGlobal.isContinious) {
 				SceneManager.LoadScene ("Leaderboards");
 			} else {
 				SceneManager.LoadScene ("MainMenu");
 			}
 		}
-
-
-		if (Time.time > nextUsage && IsFinishing) {
+			
+		if (IsFinishing) {
 			QuizApp.getInstance ().AddGame ();
 			SceneManager.LoadScene ("QuizWheel");
 		}
-
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("QuizWheel");
