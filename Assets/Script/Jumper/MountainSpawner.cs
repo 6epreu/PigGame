@@ -22,6 +22,9 @@ public class MountainSpawner : MonoBehaviour {
     void Update()
     {
 
+		if (!AppGlobal.startForJumper)
+			return;
+
         if (Time.time > nextSpawnTime)
         {
             int rand = objectCount % 3;

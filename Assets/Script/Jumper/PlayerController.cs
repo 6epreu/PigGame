@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     public Text scoreText;
     public int jumpLeft = 1;
     public float bonus = 0;
+	private GameObject dialog;
 
 
     // Use this for initialization
@@ -20,12 +21,16 @@ public class PlayerController : MonoBehaviour {
         mRigidBody = GetComponent<Rigidbody2D>();
         mAnimator = GetComponent<Animator>();
         mCollider = GetComponent<BoxCollider2D>();
+		dialog = GameObject.Find ("Dialog");
     }
 	
 	// Update is called once per frame
 	void Update () {
         
-        if (playerHurtTime == -1)
+		if (!AppGlobal.startForJumper)
+			return;
+
+		if (playerHurtTime == -1)
         {
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && jumpLeft > 0)
             {
@@ -45,10 +50,10 @@ public class PlayerController : MonoBehaviour {
         }
         else if ( Time.time > playerHurtTime + 2 ) 
         {
-            if (!AppGlobal.isContinious)
-                Application.LoadLevel(Application.loadedLevel);
-            else
-            {
+			if (!AppGlobal.isContinious) {
+				Application.LoadLevel(Application.loadedLevel);
+				AppGlobal.startForJumper = false;
+			} else {
                 float levelScore = float.Parse(scoreText.text);
                 AppGlobal.totalScore = levelScore;
                 SceneManager.LoadScene("MemoryGame");
@@ -61,6 +66,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Debug.Log("hurt");
+
             
             mAnimator.SetBool("bHurt", true);
             playerHurtTime = Time.time;
@@ -103,5 +109,11 @@ public class PlayerController : MonoBehaviour {
             bonus += 50f;
         }
     }
+
+	public void dialogOkClick()
+	{
+		AppGlobal.startForJumper = true;
+		dialog.SetActive (false);
+	}
 }
 

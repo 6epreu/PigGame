@@ -17,6 +17,9 @@ public class EnemySpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (!AppGlobal.startForJumper)
+			return;
         
         if (Time.time > nextSpawnTime)
         {   
@@ -33,4 +36,5 @@ public class EnemySpawner : MonoBehaviour {
             Debug.Log("added Time = " + animCurve.Evaluate(timePassed / theXAxisTime));
         }
 	}
+
 }

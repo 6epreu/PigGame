@@ -3,7 +3,9 @@ using System.Collections;
 
 public class AppGlobal : MonoBehaviour {
 
-    public static bool isContinious = false;
+	public static bool startForJumper = false;
+
+	public static bool isContinious = false;
     public static float totalScore = 0f;
 
 	// only for PIG-NINZA

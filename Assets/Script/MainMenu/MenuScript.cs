@@ -36,7 +36,7 @@ public class MenuScript : MonoBehaviour {
     public void clickNinja()
     {
 		AppGlobal.totalScore = 0f;
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("GameStart");
         //Application.LoadLevel(Levels.TimerMode);
     }
 
@@ -51,7 +51,7 @@ public class MenuScript : MonoBehaviour {
         Debug.Log("start new game");
         AppGlobal.isContinious = true;
         AppGlobal.totalScore = 0f;
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("GameStart");
     }
 
     public void clickStatistic()
