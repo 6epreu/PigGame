@@ -143,7 +143,7 @@ public class MemoryGameController : MonoBehaviour
 	{
 		hidePigs ();
 		hideFailures ();
-		description.text = "Welcome to our cool game.\nRemember pigs on the Screen.\nThen click it all on next Stage.";
+		description.text = "Onthoud op welke plek de varkentjes op de boerderij zijn. Elke level verschijnen er meer varkentjes. Hoe meer varkentjes goed, hoe meer punten.";
 		descriptionHolder.SetActive (true);
 		continueBtn.gameObject.SetActive (true);
         

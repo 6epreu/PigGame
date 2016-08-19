@@ -8,6 +8,8 @@ public class WheelController : MonoBehaviour
 {
 
 	public Text score;
+	public GameObject messageWindow;
+	public UnityEngine.UI.Button continueButton;
 
 	private float angleVelocity = 0;
 	private float startTouchY = -100;
@@ -15,12 +17,25 @@ public class WheelController : MonoBehaviour
 	private bool startedRotation = false;
 	private float timeLeft = 0;
 
+	public void hideMessageWindow(){
+		messageWindow.SetActive (false);
+	}
+
 	void Start ()
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
+		
+		messageWindow.SetActive (false);
+		continueButton.onClick.AddListener (() => {
+			print("continue");
+			messageWindow.SetActive (false);
+		});
 
-		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
-		score.text = "Score: " + QuizApp.getInstance ().Score;
+//		if (!QuizApp.getInstance ().isFirstGame ())
+//			messageWindow.SetActive (false);
+//
+//		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
+//		score.text = "Score: " + QuizApp.getInstance ().Score;
 	}
 
 	private void rotateWheelBy (float rotationAngle)
@@ -75,34 +90,36 @@ public class WheelController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.Escape))
-			SceneManager.LoadScene ("MainMenu");
+//		if (Input.GetKeyDown (KeyCode.Escape))
+//			SceneManager.LoadScene ("MainMenu");
+		/*
+		if (!messageWindow.activeSelf) {
+			if (timeLeft > 0) {
+				timeLeft -= Time.deltaTime;
+			} else if (startedRotation) {
+				angleVelocity = 0f;
+				startedRotation = false;
+
+				float degrees = toDegrees (wheelRigidBody.rotation);
+				string group = getCategoryByAngle (degrees);
+				QuizApp.Group = group;
+				SceneManager.LoadScene ("QuizQuestion");
+			}
 		
+			float rotation = wheelRigidBody.rotation + angleVelocity;
+			wheelRigidBody.MoveRotation (rotation);
 
-		if (timeLeft > 0) {
-			timeLeft -= Time.deltaTime;
-		} else if (startedRotation) {
-			angleVelocity = 0f;
-			startedRotation = false;
-
-			float degrees = toDegrees (wheelRigidBody.rotation);
-			string group = getCategoryByAngle (degrees);
-			QuizApp.Group = group;
-			SceneManager.LoadScene ("QuizQuestion");
-		}
-		
-		float rotation = wheelRigidBody.rotation + angleVelocity;
-		wheelRigidBody.MoveRotation (rotation);
-
-		if (!startedRotation && Input.touchCount > 0) {
-			if (Input.GetTouch (0).phase == TouchPhase.Began) {
-				startTouchY = Input.GetTouch (0).position.y;
-			} else if (Input.GetTouch (0).phase == TouchPhase.Moved) {
-				float nextTouchY = Input.GetTouch (0).position.y;
-				rotateWheelBy (startTouchY - nextTouchY);
-			} else if (Input.GetTouch (0).phase == TouchPhase.Ended) {
-				startRotationAnimation ();
+			if (!startedRotation && Input.touchCount > 0) {
+				if (Input.GetTouch (0).phase == TouchPhase.Began) {
+					startTouchY = Input.GetTouch (0).position.y;
+				} else if (Input.GetTouch (0).phase == TouchPhase.Moved) {
+					float nextTouchY = Input.GetTouch (0).position.y;
+					rotateWheelBy (startTouchY - nextTouchY);
+				} else if (Input.GetTouch (0).phase == TouchPhase.Ended) {
+					startRotationAnimation ();
+				}
 			}
 		}
+*/
 	}
 }

@@ -4,18 +4,20 @@ using System.Collections.Generic;
 
 public class QuizApp
 {
-	public int Games {
-		get;
-		set;
+	public bool isFirstGame ()
+	{
+		return GameCounter == 0;
 	}
 
 	private const int MAX_GAMES = 5;
 
-	public Boolean isGameOver(){
+	public Boolean isGameOver ()
+	{
 		return GameCounter >= MAX_GAMES;
 	}
 
-	public void AddGame (){
+	public void AddGame ()
+	{
 		GameCounter++;
 	}
 
@@ -40,7 +42,7 @@ public class QuizApp
 	{
 		if (app == null) {
 			app = new QuizApp ();
-			app.Games = 0;
+			app.GameCounter = 0;
 			app.Score = AppGlobal.totalScore;
 		}
 		return app;
