@@ -152,11 +152,11 @@ public class GameScene : MonoBehaviour {
 
 
         // если это заново запушенная игра - включаем режит таймера
-        if (AppGlobal.isContinious) {
+//        if (AppGlobal.isContinious) {
             StartCoroutine(countDownTimer());
             textTime.SetActive(true);
-        } else
-            textTime.SetActive(false);
+//        } else
+//            textTime.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -259,8 +259,13 @@ public class GameScene : MonoBehaviour {
 			textTime.GetComponent<GUIText>().text = timeNum + " secs";
 			if(timeNum == 0){
 				isGameOver = true;
-                AppGlobal.totalScore += AppGlobal.scoreNum;
-                SceneManager.LoadScene("Level1");
+
+				if (AppGlobal.isContinious) {
+					AppGlobal.totalScore += AppGlobal.scoreNum;
+					SceneManager.LoadScene ("Level1");
+				} else {
+					SceneManager.LoadScene ("MainMenu");
+				}
             }
 		}
 	}

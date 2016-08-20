@@ -25,17 +25,16 @@ public class WheelController : MonoBehaviour
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
 		
-		messageWindow.SetActive (false);
 		continueButton.onClick.AddListener (() => {
 			print("continue");
 			messageWindow.SetActive (false);
 		});
 
-//		if (!QuizApp.getInstance ().isFirstGame ())
-//			messageWindow.SetActive (false);
-//
-//		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
-//		score.text = "Score: " + QuizApp.getInstance ().Score;
+		if (!QuizApp.getInstance ().isFirstGame ())
+			messageWindow.SetActive (false);
+
+		wheelRigidBody = gameObject.GetComponent<Rigidbody2D> () as Rigidbody2D;
+		score.text = "Score: " + QuizApp.getInstance ().Score;
 	}
 
 	private void rotateWheelBy (float rotationAngle)
@@ -90,9 +89,9 @@ public class WheelController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-//		if (Input.GetKeyDown (KeyCode.Escape))
-//			SceneManager.LoadScene ("MainMenu");
-		/*
+		if (Input.GetKeyDown (KeyCode.Escape))
+			SceneManager.LoadScene ("MainMenu");
+
 		if (!messageWindow.activeSelf) {
 			if (timeLeft > 0) {
 				timeLeft -= Time.deltaTime;
@@ -120,6 +119,5 @@ public class WheelController : MonoBehaviour
 				}
 			}
 		}
-*/
 	}
 }
