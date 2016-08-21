@@ -61,7 +61,7 @@ public class LeaderBoardAPI
 		}
 	}
 
-	public static IEnumerator addScore (int score)
+	public static IEnumerator addScore (int score, Action<String> onDone)
 	{
 		Dictionary<string, string> headers = new Dictionary<string, string> ();
 		headers.Add ("Content-Type", "application/json");
@@ -79,6 +79,8 @@ public class LeaderBoardAPI
 		} else {
 			Debug.Log ("request error: " + request.text);
 		}
+
+		onDone.Invoke ("");
 	}
 }
 

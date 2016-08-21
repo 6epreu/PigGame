@@ -105,6 +105,36 @@ public class QuizController : MonoBehaviour
 		Debug.Log ("correct answer =" + correctAnswer);
 	}
 
+	void showDialog (Boolean isWinner)
+	{
+		GameObject dialog = GameObject.Find ("Dialog");
+		Text answer = GameObject.Find ("Answer").GetComponent<Text> ();
+		if (isWinner) {
+			answer.text = "Your answer is correct!\nEarned 50 points";
+		} else {
+			answer.text = "Your answer is incorrect!";
+		}
+
+		UnityEngine.UI.Button button = GameObject.Find ("Button").GetComponent<UnityEngine.UI.Button> ();
+		button.onClick.AddListener(() => {
+			if (QuizApp.getInstance ().isGameOver ()) {
+				QuizApp.getInstance ().NewGame ();
+				if (AppGlobal.isContinious) {
+					StartCoroutine(LeaderBoardAPI.addScore((int)QuizApp.getInstance().Score, 
+						(s) => SceneManager.LoadScene ("Leaderboards")));
+				} else {
+					SceneManager.LoadScene ("MainMenu");
+				}
+			}
+
+			if (IsFinishing) {
+				QuizApp.getInstance ().AddGame ();
+				SceneManager.LoadScene ("QuizWheel");
+			}
+		});
+		dialog.SetActive (true);
+	}
+
 	public void SetAnswer (int number)
 	{
 		Debug.Log ("your answer = " + number);
@@ -113,7 +143,10 @@ public class QuizController : MonoBehaviour
 			
 		if (result) {
 			QuizApp.getInstance ().addScore (WIN_SCORE);
+
 		}
+		showDialog (result);
+
 
 		QuizApp.getInstance ().AddGame ();
 		timeout = delay;
@@ -126,19 +159,7 @@ public class QuizController : MonoBehaviour
 		if (timeout > 0)
 			timeout -= Time.deltaTime;
 
-		if (QuizApp.getInstance ().isGameOver ()) {
-			QuizApp.getInstance ().NewGame ();
-			if (AppGlobal.isContinious) {
-				SceneManager.LoadScene ("Leaderboards");
-			} else {
-				SceneManager.LoadScene ("MainMenu");
-			}
-		}
-			
-		if (IsFinishing) {
-			QuizApp.getInstance ().AddGame ();
-			SceneManager.LoadScene ("QuizWheel");
-		}
+
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("QuizWheel");
