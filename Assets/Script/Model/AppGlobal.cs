@@ -12,7 +12,7 @@ public class AppGlobal : MonoBehaviour {
 	// only for PIG-NINZA
 	public static float scoreNum = 0f;
 	// TOKEN 
-	public static String token = "AOZWWAweA2wd0nsIB0OOrA";
+	public static String token;
 
     // Use this for initialization
     void Start () {

@@ -63,8 +63,13 @@ public class QuizApp
 
 	public void NewGame ()
 	{
+		
 		GameCounter = 0;
 		playedQuizes.Clear ();	
+		if (AppGlobal.isContinious)
+			app.Score = AppGlobal.totalScore;
+		else
+			app.Score = 0;
 	}
 
 	List<Quiz> filterQuizByCategory (List<Quiz> list, String category)

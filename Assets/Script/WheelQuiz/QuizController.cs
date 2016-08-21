@@ -21,6 +21,10 @@ public class QuizController : MonoBehaviour
 	public UnityEngine.UI.Button answerButton3;
 	public UnityEngine.UI.Button answerButton4;
 
+	public GameObject dialog;
+	public GameObject answer;
+	public GameObject btnContinue;
+
 	public Text question;
 	public Text title;
 
@@ -106,31 +110,35 @@ public class QuizController : MonoBehaviour
 	}
 
 	void showDialog (Boolean isWinner)
-	{
-		GameObject dialog = GameObject.Find ("Dialog");
-		Text answer = GameObject.Find ("Answer").GetComponent<Text> ();
+	{	 
+		Text textAnswer = answer.GetComponent<Text> ();
+
 		if (isWinner) {
-			answer.text = "Your answer is correct!\nEarned 50 points";
+			textAnswer.text = "Your answer is correct!\nEarned 50 points";
 		} else {
-			answer.text = "Your answer is incorrect!";
+			textAnswer.text = "Your answer is incorrect!";
 		}
 
-		UnityEngine.UI.Button button = GameObject.Find ("Button").GetComponent<UnityEngine.UI.Button> ();
+		UnityEngine.UI.Button button = btnContinue.GetComponent<UnityEngine.UI.Button> ();
 		button.onClick.AddListener(() => {
+			QuizApp.getInstance().AddGame();
 			if (QuizApp.getInstance ().isGameOver ()) {
 				QuizApp.getInstance ().NewGame ();
 				if (AppGlobal.isContinious) {
 					StartCoroutine(LeaderBoardAPI.addScore((int)QuizApp.getInstance().Score, 
-						(s) => SceneManager.LoadScene ("Leaderboards")));
+						(s) => {
+							SceneManager.LoadScene ("Leaderboards");
+							return;
+						}));
 				} else {
 					SceneManager.LoadScene ("MainMenu");
+					return;
 				}
 			}
-
-			if (IsFinishing) {
-				QuizApp.getInstance ().AddGame ();
+			else{
 				SceneManager.LoadScene ("QuizWheel");
 			}
+
 		});
 		dialog.SetActive (true);
 	}
@@ -141,16 +149,9 @@ public class QuizController : MonoBehaviour
 		Boolean result = number == correctAnswer;
 		Debug.Log (result ? "YOU WIN" : "YOU LOSE");	
 			
-		if (result) {
+		if (result)
 			QuizApp.getInstance ().addScore (WIN_SCORE);
-
-		}
 		showDialog (result);
-
-
-		QuizApp.getInstance ().AddGame ();
-		timeout = delay;
-		IsFinishing = true;
 	}
 		
 	// Update is called once per frame

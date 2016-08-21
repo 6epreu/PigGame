@@ -88,6 +88,7 @@ public class LoginHandler : MonoBehaviour {
             }
             else
             {
+				AppGlobal.token = jResponse.token;
                 SceneManager.LoadScene("MainMenu");
             }
         }

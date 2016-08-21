@@ -30,6 +30,7 @@ public class MenuScript : MonoBehaviour {
     public void clickWheel()
     {
 		AppGlobal.totalScore = 0f;
+		QuizApp.getInstance ().NewGame ();
         SceneManager.LoadScene("QuizWheel");
     }
 
