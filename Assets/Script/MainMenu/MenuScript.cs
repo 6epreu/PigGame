@@ -56,7 +56,8 @@ public class MenuScript : MonoBehaviour {
 
     public void clickStatistic()
     {
-        //
+		Debug.Log("Leaderboards");
+		SceneManager.LoadScene("Leaderboards");
     }
 
 }

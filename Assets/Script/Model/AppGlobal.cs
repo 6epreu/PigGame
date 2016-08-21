@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class AppGlobal : MonoBehaviour {
 
@@ -10,7 +11,8 @@ public class AppGlobal : MonoBehaviour {
 
 	// only for PIG-NINZA
 	public static float scoreNum = 0f;
-
+	// TOKEN 
+	public static String token = "AOZWWAweA2wd0nsIB0OOrA";
 
     // Use this for initialization
     void Start () {
