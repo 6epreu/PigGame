@@ -61,5 +61,11 @@ public class MenuScript : MonoBehaviour {
 		SceneManager.LoadScene("Leaderboards");
     }
 
+	public void clickWatchMoview()
+	{
+		Debug.Log("WatchMoview");
+		Application.OpenURL (AppGlobal.youtubeUrl);
+	}
+
 }
 

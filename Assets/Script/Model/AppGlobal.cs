@@ -14,6 +14,13 @@ public class AppGlobal : MonoBehaviour {
 	// TOKEN 
 	public static String token;
 
+	// static youtube url
+	public static String youtubeUrl;
+	// static final text 
+	public static String finalText;
+	// static final text 
+	public static String finalTextUrl;
+
     // Use this for initialization
     void Start () {
 	

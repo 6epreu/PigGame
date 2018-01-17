@@ -6,8 +6,8 @@ using System;
 
 public class LoginHandler : MonoBehaviour {
 
-    public const string LOGIN_URI = "http://128.199.56.123:4570/login";
-    public const string REGISTRATION_URI = "http://128.199.56.123:4570/register";
+	public const string LOGIN_URI = "http://146.185.178.74:4570/login";
+	public const string REGISTRATION_URI = "http://146.185.178.74:4570/register";
     public Text loginText;
     public Text passwordText;
     public Toggle registrationToggle;
@@ -89,6 +89,9 @@ public class LoginHandler : MonoBehaviour {
             else
             {
 				AppGlobal.token = jResponse.token;
+				AppGlobal.finalText = jResponse.finalText;
+				AppGlobal.finalTextUrl = jResponse.finalTextUrl;
+				AppGlobal.youtubeUrl = jResponse.youtubeUrl;
                 SceneManager.LoadScene("MainMenu");
             }
         }
@@ -110,13 +113,11 @@ public class LoginHandler : MonoBehaviour {
         hideProgress();
         // Print the error to the console
         LoginResponse jResponse = JsonUtility.FromJson<LoginResponse>(request.text);
-        if (request.error != null)
-        {
+		if (request.error != null)
+		{
             Debug.Log("request error: " + request.error);
             showDialog("request error: " + request.error);
-        }
-        else
-        {
+        } else {
             if (!String.IsNullOrEmpty(jResponse.message))
             {
                 Debug.Log("request error: " + jResponse.message);
@@ -124,6 +125,10 @@ public class LoginHandler : MonoBehaviour {
             }
             else
             {
+				AppGlobal.token = jResponse.token;
+				AppGlobal.finalText = jResponse.finalText;
+				AppGlobal.finalTextUrl = jResponse.finalTextUrl;
+				AppGlobal.youtubeUrl = jResponse.youtubeUrl;
                 SceneManager.LoadScene("MainMenu");
             }
         }
