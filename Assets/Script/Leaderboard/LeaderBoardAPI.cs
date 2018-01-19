@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 public class LeaderBoardAPI
 {
-	private const string SCORE_URI = "http://128.199.56.123:4570/score";
-	private const string TOP_URI = "http://128.199.56.123:4570/top";
+
+
+	private const string SCORE_URI = "http://146.185.178.74:4570/score";
+	private const string TOP_URI = "http://146.185.178.74:4570/top";
 
 	[Serializable]
 	public class LeaderBoardResponse
